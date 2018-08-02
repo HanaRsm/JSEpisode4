@@ -8,12 +8,11 @@ let taskInput;
 let addButton;
 let todoList;
 
-
 /***************************************************************
  * Setup Function:
  * - grabs the high level elements and stores them in variables
  * - adds event handlers to already existing tasks
- * 
+ *
  * DO NOT EDIT THIS FUNCTION!!!
  ***************************************************************/
 const setup = function() {
@@ -59,6 +58,8 @@ const createNewTask = function(taskString) {
   // Add handlers for the edit button and checkbox
   // editButton.onclick = ...
   // checkBox.onchange = ...
+  editButton.onclick = editTask;
+  checkBox.onchange = completeTask;
 
   // Append each element to the listItem
   listItem.appendChild(checkBox);
@@ -68,7 +69,7 @@ const createNewTask = function(taskString) {
 
   return listItem;
 };
-
+// createNewTask("");
 /*****************************************************
  * Add a new task to the list:
  * - Create a new task with the value from taskInput
@@ -77,9 +78,22 @@ const createNewTask = function(taskString) {
  * - Reset the value of taskInput
  *****************************************************/
 const addTask = function() {
-  // Complete me!
-};
+  // taskInput = "New Task";
+  let taskInput = document.getElementById("new-task");
+  if (taskInput.value !== "") {
+    taskInput.value = taskInput.value;
+  } else {
+    taskInput.value = "New Task";
+  }
 
+  let todotwo = createNewTask(taskInput.value);
+  todoList.appendChild(todotwo);
+  taskInput.value = "";
+  console.log("test");
+};
+//const newItem = createNewTask(taskInput.value || "New Task");
+// todoList.appendChild(newItem);
+//taskInput.value = "";
 /*****************************************************************
  * Edit a task:
  * - Get the current list item
@@ -96,8 +110,33 @@ const addTask = function() {
 const editTask = function() {
   // get the current list item which is the parent
   // node of the current button (`this`)
+  // let listItem = this.parentNode;
+  // // let label = listItem.getElementByTagName("label")[0];
+  // let input = listItem.querySelector("input[type=text]");
+  // let editButton = listItem.querySelector("button");
+  // // listItem.classList.add("edit-mode");
+  //
+  // if (listItem.classList.contains("edit-mode")) {
+  //   listItem.classList.remove("edit-mode");
+  //   editButton.innerHTML = "edit";
+  // } else {
+  //   listItem.classList.add("edit-mode");
+  //   editButton.innerHTML = "save";
+  // }
+  // console.log(listItem.value);
   let listItem = this.parentNode;
-  // Complete me!
+  let label = listItem.querySelector("label");
+  let textInput = listItem.querySelector("input[type=text]");
+
+  if (listItem.classList.contains("edit-mode")) {
+    label.innerHTML = textInput.value;
+    this.innerHTML = "Edit";
+  } else {
+    textInput.value = label.innerHTML;
+    this.innerHTML = "Save";
+  }
+
+  listItem.classList.toggle("edit-mode");
 };
 
 /***********************************
@@ -106,7 +145,10 @@ const editTask = function() {
  * - Remove the item from todoList
  ***********************************/
 const completeTask = function() {
-  // Complete me!
+  let listItem = this.parentNode;
+  listItem.parentNode.removeChild(listItem);
+
+  //this.parentNode.remove();
 };
 
 module.exports = {
